@@ -16,6 +16,7 @@
     "@vkontakte/icons": "^3",
     "@vkontakte/vk-bridge": "^3.0.2",
     "@vkontakte/vk-bridge-react": "^2.0.1",
+    "@vkontakte/vk-miniapps-deploy": "^1.0.2",
     "@vkontakte/vkui": "^8",
     "mobx": "^6.15.3",
     "mobx-react-lite": "^4.1.1",

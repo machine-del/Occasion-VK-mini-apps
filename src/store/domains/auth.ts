@@ -38,7 +38,6 @@ export class AuthStore {
 
   async initApp() {
     try {
-      // Здесь проверяем токен в localStorage
       const savedToken = localStorage.getItem("token");
       const savedUser = localStorage.getItem("user");
 
