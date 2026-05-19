@@ -1,12 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import type { RootStore } from "../rootStore";
-import { parseURLSearchParamsForGetLaunchParams } from "@vkontakte/vk-bridge";
-import {
-  useAppearance,
-  useInsets,
-  useAdaptivity,
-} from "@vkontakte/vk-bridge-react";
-import { transformVKBridgeAdaptivity } from "../../helpers/transformVKBridgeAdaptivity";
 
 interface User {
   id: number;
@@ -25,15 +18,27 @@ export class AuthStore {
   isLoading: boolean = false;
   error: string | null = null;
   isReady = false;
-  vkBridgeColorScheme = useAppearance() || undefined;
-  vkBridgeInsets = useInsets() || undefined;
-  vkBridgeAdaptivityProps = transformVKBridgeAdaptivity(useAdaptivity());
-  vk_platform = parseURLSearchParamsForGetLaunchParams(window.location.search)
-    .vk_platform;
+
+  vkBridgeColorScheme: string | undefined = undefined;
+  vkBridgeInsets: any = undefined;
+  vkBridgeAdaptivityProps: any = {};
+  vk_platform: string | undefined = undefined;
 
   constructor(rootStore: RootStore) {
     makeAutoObservable(this, {}, { autoBind: true });
     this.rootStore = rootStore;
+  }
+
+  setVKBridgeData(data: {
+    colorScheme?: string;
+    insets?: any;
+    adaptivityProps?: any;
+    platform?: string;
+  }) {
+    this.vkBridgeColorScheme = data.colorScheme;
+    this.vkBridgeInsets = data.insets;
+    this.vkBridgeAdaptivityProps = data.adaptivityProps || {};
+    this.vk_platform = data.platform;
   }
 
   async initApp() {
@@ -54,7 +59,7 @@ export class AuthStore {
     }
   }
 
-  async login(vkId: string, password: string) {
+  async login(vkId: string, _password: string) {
     this.isLoading = true;
     this.error = null;
 
@@ -92,7 +97,7 @@ export class AuthStore {
     }
   }
 
-  async register(userData: Partial<User>, password: string) {
+  async register(_userData: Partial<User>, _password: string) {
     this.isLoading = true;
     this.error = null;
 

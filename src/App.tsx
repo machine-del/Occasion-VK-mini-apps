@@ -8,24 +8,48 @@ import {
 } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
 import vkBridge from "@vkontakte/vk-bridge";
+import {
+  useAppearance,
+  useInsets,
+  useAdaptivity,
+} from "@vkontakte/vk-bridge-react";
+import { parseURLSearchParamsForGetLaunchParams } from "@vkontakte/vk-bridge";
 import { Router } from "./router/router";
 import { RootStore } from "./store/rootStore";
 import { StoreContext } from "./store/StoreProvider";
+import { transformVKBridgeAdaptivity } from "./helpers/transformVKBridgeAdaptivity";
 
 const rootStore = new RootStore();
 
 export const App = observer(() => {
-  vkBridge.send("VKWebAppInit");
-  const {
-    isReady,
-    initApp,
-    vk_platform,
-    vkBridgeAdaptivityProps,
-    vkBridgeColorScheme,
-    vkBridgeInsets,
-  } = rootStore.authStore;
+  const vkBridgeColorScheme = useAppearance() || undefined;
+  const vkBridgeInsets = useInsets() || undefined;
+  const vkBridgeAdaptivityRaw = useAdaptivity();
+  const vkBridgeAdaptivityProps = transformVKBridgeAdaptivity(
+    vkBridgeAdaptivityRaw,
+  );
+  const vk_platform = parseURLSearchParamsForGetLaunchParams(
+    window.location.search,
+  ).vk_platform;
 
   useEffect(() => {
+    rootStore.authStore.setVKBridgeData({
+      colorScheme: vkBridgeColorScheme,
+      insets: vkBridgeInsets,
+      adaptivityProps: vkBridgeAdaptivityProps,
+      platform: vk_platform,
+    });
+  }, [
+    vkBridgeColorScheme,
+    vkBridgeInsets,
+    vkBridgeAdaptivityProps,
+    vk_platform,
+  ]);
+
+  const { isReady, initApp } = rootStore.authStore;
+
+  useEffect(() => {
+    vkBridge.send("VKWebAppInit");
     initApp();
   }, []);
 
