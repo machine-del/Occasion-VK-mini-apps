@@ -19,26 +19,9 @@ export class AuthStore {
   error: string | null = null;
   isReady = false;
 
-  vkBridgeColorScheme: string | undefined = undefined;
-  vkBridgeInsets: any = undefined;
-  vkBridgeAdaptivityProps: any = {};
-  vk_platform: string | undefined = undefined;
-
   constructor(rootStore: RootStore) {
     makeAutoObservable(this, {}, { autoBind: true });
     this.rootStore = rootStore;
-  }
-
-  setVKBridgeData(data: {
-    colorScheme?: string;
-    insets?: any;
-    adaptivityProps?: any;
-    platform?: string;
-  }) {
-    this.vkBridgeColorScheme = data.colorScheme;
-    this.vkBridgeInsets = data.insets;
-    this.vkBridgeAdaptivityProps = data.adaptivityProps || {};
-    this.vk_platform = data.platform;
   }
 
   async initApp() {

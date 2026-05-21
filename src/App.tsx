@@ -22,7 +22,6 @@ import { transformVKBridgeAdaptivity } from "./helpers/transformVKBridgeAdaptivi
 const rootStore = new RootStore();
 
 export const App = observer(() => {
-  const vkBridgeColorScheme = useAppearance() || undefined;
   const vkBridgeInsets = useInsets() || undefined;
   const vkBridgeAdaptivityRaw = useAdaptivity();
   const vkBridgeAdaptivityProps = transformVKBridgeAdaptivity(
@@ -31,20 +30,6 @@ export const App = observer(() => {
   const vk_platform = parseURLSearchParamsForGetLaunchParams(
     window.location.search,
   ).vk_platform;
-
-  useEffect(() => {
-    rootStore.authStore.setVKBridgeData({
-      colorScheme: vkBridgeColorScheme,
-      insets: vkBridgeInsets,
-      adaptivityProps: vkBridgeAdaptivityProps,
-      platform: vk_platform,
-    });
-  }, [
-    vkBridgeColorScheme,
-    vkBridgeInsets,
-    vkBridgeAdaptivityProps,
-    vk_platform,
-  ]);
 
   const { isReady, initApp } = rootStore.authStore;
 
@@ -60,7 +45,7 @@ export const App = observer(() => {
   return (
     <StoreContext.Provider value={rootStore}>
       <ConfigProvider
-        colorScheme={vkBridgeColorScheme}
+        colorScheme="light"
         platform={vk_platform === "desktop_web" ? "vkcom" : undefined}
         isWebView={vkBridge.isWebView()}
       >
