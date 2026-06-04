@@ -14,3 +14,39 @@ export function LoaderArc() {
     </svg>
   );
 }
+
+export function MapIcon() {
+  return (
+    <svg
+      width="16"
+      height="22"
+      viewBox="0 0 16 22"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8 22C10.4183 22 16 15.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 15.4183 5.58172 22 8 22ZM8 5C6.34315 5 5 6.34315 5 8C5 9.65685 6.34315 11 8 11C9.65685 11 11 9.65685 11 8C11 6.34315 9.65685 5 8 5Z"
+        fill="#99A2AD"
+      />
+    </svg>
+  );
+}
+
+export function DashIcon() {
+  return (
+    <svg
+      width="20"
+      height="2"
+      viewBox="0 0 20 2"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M19 0H11H1C0.447715 0 0 0.447715 0 1C0 1.55228 0.447715 2 1 2H11H19C19.5523 2 20 1.55228 20 1C20 0.447715 19.5523 0 19 0Z"
+        fill="#99A2AD"
+      />
+    </svg>
+  );
+}

@@ -119,7 +119,7 @@ export class AuthViewModel {
 
   handleAuthRedirect(navigate: NavigateFunction) {
     if (this.shouldShowApp) {
-      navigate("/app", { replace: true });
+      navigate("/settings", { replace: true });
       return true;
     }
     return false;
