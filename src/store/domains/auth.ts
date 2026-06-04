@@ -5,10 +5,13 @@ interface User {
   id: number;
   vkId: number;
   fullName: string;
+  firstName?: string;
+  lastName?: string;
   city: string;
   age: number;
   friends: [];
   role: "user" | "moderation";
+  photoUrl?: string;
 }
 
 export class AuthStore {
