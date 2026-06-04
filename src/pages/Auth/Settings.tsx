@@ -14,8 +14,10 @@ import { SettingsViewModel } from "../../store/viewModels/settingsViewModel";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { DashIcon, MapIcon } from "../../icons/icons";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 
 export const Settings = observer(() => {
+  const isMobile = useMediaQuery();
   const navigate = useNavigate();
   const root = useStores();
   const viewModel = useMemo(() => new SettingsViewModel(root), [root]);
@@ -59,7 +61,8 @@ export const Settings = observer(() => {
           alignItems: "center",
           flexDirection: "column",
           maxWidth: "686px",
-          maxHeight: "486px",
+          maxHeight: isMobile ? "none" : "486px",
+          padding: isMobile ? "30px 18px" : "0px",
         }}
       >
         <Box
@@ -79,7 +82,7 @@ export const Settings = observer(() => {
                 color: "#2D81E0",
                 fontFamily: "Roboto",
                 fontWeight: 700,
-                fontSize: "36px",
+                fontSize: isMobile ? "20px" : "36px",
               }}
             >
               Выберите свои интересы
@@ -108,6 +111,7 @@ export const Settings = observer(() => {
                       : "#fff",
                     borderRadius: "10px",
                     cursor: "pointer",
+                    userSelect: "none",
                   }}
                 >
                   {interest}
@@ -121,6 +125,7 @@ export const Settings = observer(() => {
               width: "100%",
               marginTop: "36px",
               display: "flex",
+              flexDirection: isMobile ? "column" : "row",
               gap: "23px",
             }}
           >
@@ -134,6 +139,7 @@ export const Settings = observer(() => {
                 display: "flex",
                 flexDirection: "column",
                 gap: "7px",
+                position: "relative",
               }}
             >
               <Title
@@ -148,6 +154,7 @@ export const Settings = observer(() => {
               >
                 Место
               </Title>
+
               <FormField
                 before={<MapIcon />}
                 mode="default"
@@ -176,6 +183,7 @@ export const Settings = observer(() => {
                     zIndex: 10,
                     maxHeight: "200px",
                     overflowY: "auto",
+                    mt: "4px",
                   }}
                 >
                   {citySuggestions.map((city) => (
