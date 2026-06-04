@@ -45,7 +45,7 @@ export class AuthStore {
     }
   }
 
-  async login(vkId: string, _password: string) {
+  async login(vkId: string, accessToken: string, userData?: any) {
     this.isLoading = true;
     this.error = null;
 

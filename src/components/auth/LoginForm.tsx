@@ -1,39 +1,18 @@
 import { Box } from "@mui/material";
 import { Button, ImageBase, Link, Text, Title } from "@vkontakte/vkui";
-import vkBridge from "@vkontakte/vk-bridge";
 import picture1 from "../../../public/images/pictures/reg1.png";
 import picture2 from "../../../public/images/pictures/reg2.png";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import logo from "../../../public/images/Icon/OccasionLoading.png";
 import { useStores } from "../../store/useStore";
+import { useMemo } from "react";
+import { AuthViewModel } from "../../store/viewModels/authViewModel";
 
 export function LoginForm() {
   const isMobile = useMediaQuery();
-  const { authStore } = useStores();
-
-  const handleVKLogin = async () => {
-    try {
-      const result = await vkBridge.send("VKWebAppGetAuthToken", {
-        app_id: 54594845,
-        scope: "friends, email",
-      });
-
-      if (result.access_token) {
-        const userData = await vkBridge.send("VKWebAppGetUserInfo", {});
-
-        await authStore.login(userData.id.toString(), result.access_token);
-      }
-    } catch (error) {
-      console.error("Ошибка авторизации VK ID:", error);
-
-      if (error && typeof error === "object" && "message" in error) {
-        const errorMessage = error.message as string;
-        if (errorMessage?.includes("canceled")) {
-          console.log("Пользователь отменил авторизацию");
-        }
-      }
-    }
-  };
+  const root = useStores();
+  const viewModel = useMemo(() => new AuthViewModel(root), [root]);
+  const { handleVKLogin, isLoadingAuth } = viewModel;
 
   return (
     <Box
@@ -150,7 +129,7 @@ export function LoginForm() {
                 maxWidth: "432px",
                 width: "100%",
               }}
-              disabled={authStore.isLoading}
+              disabled={isLoadingAuth}
             >
               <Text
                 style={{
@@ -160,7 +139,7 @@ export function LoginForm() {
                   fontWeight: 500,
                 }}
               >
-                {authStore.isLoading ? "Загрузка..." : "Войти через VK ID"}
+                {isLoadingAuth ? "Загрузка..." : "Войти через VK ID"}
               </Text>
             </Button>
             <Box
